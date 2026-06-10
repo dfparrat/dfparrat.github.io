@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DUVI — Desarrollador Frontend & Analista de Datos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0f;
+      --surface: #16161a;
+      --surface2: #1e1e24;
+      --border: rgba(255,255,255,0.07);
+      --accent: #6c63ff;
+      --accent2: #00d4aa;
+      --text: #f0eff5;
+      --muted: #8b8a99;
+      --card-radius: 14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13,13,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 6rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { text-align: center; max-width: 680px; position: relative; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(108,99,255,0.12); border: 1px solid rgba(108,99,255,0.3);
+      color: #a49fff; padding: 6px 16px; border-radius: 999px;
+      font-size: 0.82rem; font-weight: 500; margin-bottom: 1.5rem;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -1.5px; margin-bottom: 1.2rem;
+    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .hero p { color: var(--muted); font-size: 1.1rem; margin-bottom: 2.5rem; }
+    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      padding: 12px 28px; border-radius: 999px;
+      font-weight: 600; font-size: 0.95rem; text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-outline {
+      border: 1px solid var(--border); color: var(--text);
+      padding: 12px 28px; border-radius: 999px;
+      font-weight: 500; font-size: 0.95rem; text-decoration: none;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-1px); }
+
+    /* SKILLS STRIP */
+    .skills-strip {
+      padding: 2rem;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; gap: 1.2rem;
+    }
+    .skill-tag {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 8px 16px; border-radius: var(--card-radius);
+      font-size: 0.85rem; color: var(--muted); font-weight: 500;
+    }
+    .skill-tag .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* SECTIONS */
+    section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 2px;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700;
+      letter-spacing: -0.5px; margin-bottom: 3rem;
+    }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media(max-width: 640px) { .projects-grid { grid-template-columns: 1fr; } }
+
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--card-radius); padding: 1.5rem;
+      text-decoration: none; color: inherit;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .project-card:hover { border-color: rgba(108,99,255,0.4); transform: translateY(-3px); }
+    .project-card.featured { grid-column: 1 / -1; }
+
+    .project-header { display: flex; justify-content: space-between; align-items: flex-start; }
+    .project-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .project-link-icon { color: var(--muted); font-size: 1.1rem; }
+    .project-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; }
+    .project-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+    .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.5rem; }
+    .tag {
+      font-size: 0.75rem; font-weight: 500; padding: 3px 10px; border-radius: 999px;
+      border: 1px solid var(--border); color: var(--muted);
+    }
+    .tag.accent { background: rgba(108,99,255,0.1); border-color: rgba(108,99,255,0.25); color: #a49fff; }
+
+    /* SERVICES */
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+    .service-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--card-radius); padding: 1.5rem;
+    }
+    .service-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+    .service-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; }
+    .service-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+    .service-price {
+      margin-top: 1rem; font-size: 0.85rem; font-weight: 600;
+      color: var(--accent2); border-top: 1px solid var(--border); padding-top: 0.75rem;
+    }
+
+    /* STATS */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 3rem; }
+    @media(max-width: 480px) { .stats-row { grid-template-columns: 1fr 1fr; } }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--card-radius); padding: 1.25rem; text-align: center;
+    }
+    .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+    /* CONTACT */
+    .contact-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--card-radius); padding: 2.5rem;
+      text-align: center;
+    }
+    .contact-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .contact-card p { color: var(--muted); margin-bottom: 2rem; }
+    .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text); padding: 10px 20px; border-radius: 999px;
+      text-decoration: none; font-size: 0.9rem; font-weight: 500;
+      transition: border-color 0.2s;
+    }
+    .contact-link:hover { border-color: rgba(255,255,255,0.2); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem; text-align: center;
+      color: var(--muted); font-size: 0.85rem;
+    }
+
+    /* MOBILE NAV */
+    @media(max-width: 600px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">DUVI<span>.</span></div>
+    <ul class="nav-links">
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Disponible para proyectos freelance
+      </div>
+      <h1>
+        Frontend Dev<br/>
+        &amp; <em>Data Analyst</em><br/>
+        en Colombia
+      </h1>
+      <p>
+        Construyo landing pages que convierten y dashboards que revelan lo que tus datos realmente dicen.
+        HTML/CSS/JS puro + Power BI &amp; BI Analytics.
+      </p>
+      <div class="hero-cta">
+        <a href="#proyectos" class="btn-primary">Ver proyectos</a>
+        <a href="#contacto" class="btn-outline">Hablemos →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <div class="skills-strip">
+    <div class="skill-tag"><span class="dot" style="background:#f7df1e"></span> JavaScript</div>
+    <div class="skill-tag"><span class="dot" style="background:#e34f26"></span> HTML5 / CSS3</div>
+    <div class="skill-tag"><span class="dot" style="background:#764abc"></span> Power BI</div>
+    <div class="skill-tag"><span class="dot" style="background:#00d4aa"></span> Google Looker Studio</div>
+    <div class="skill-tag"><span class="dot" style="background:#f05032"></span> Git / GitHub</div>
+    <div class="skill-tag"><span class="dot" style="background:#4285f4"></span> Google Analytics</div>
+    <div class="skill-tag"><span class="dot" style="background:#e97627"></span> SQL</div>
+  </div>
+
+  <!-- PROYECTOS -->
+  <section id="proyectos">
+    <p class="section-label">Portafolio</p>
+    <h2 class="section-title">Proyectos seleccionados</h2>
+
+    <div class="projects-grid">
+
+      <!-- Proyecto 1 — DESTACADO — personaliza con tu proyecto real -->
+      <a href="#" class="project-card featured">
+        <div class="project-header">
+          <div class="project-icon" style="background:rgba(108,99,255,0.15)">🛍️</div>
+          <span class="project-link-icon">↗</span>
+        </div>
+        <div class="project-title">Landing page e-commerce — [Nombre del cliente]</div>
+        <div class="project-desc">
+          Página de aterrizaje para tienda online con sección de productos, carrito y formulario de contacto.
+          Optimizada para mobile-first con tiempo de carga bajo 2s. Incrementó conversiones en un 40% respecto al sitio anterior.
+        </div>
+        <div class="project-tags">
+          <span class="tag accent">HTML/CSS/JS</span>
+          <span class="tag">Responsive</span>
+          <span class="tag">SEO básico</span>
+          <span class="tag">Mobile-first</span>
+        </div>
+      </a>
+
+      <!-- Proyecto 2 -->
+      <a href="#" class="project-card">
+        <div class="project-header">
+          <div class="project-icon" style="background:rgba(0,212,170,0.12)">📊</div>
+          <span class="project-link-icon">↗</span>
+        </div>
+        <div class="project-title">Dashboard de ventas — [Empresa]</div>
+        <div class="project-desc">
+          Dashboard interactivo en Power BI con KPIs de ventas, análisis por región y tendencias mensuales para equipo comercial.
+        </div>
+        <div class="project-tags">
+          <span class="tag accent">Power BI</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Data viz</span>
+        </div>
+      </a>
+
+      <!-- Proyecto 3 -->
+      <a href="#" class="project-card">
+        <div class="project-header">
+          <div class="project-icon" style="background:rgba(255,190,50,0.12)">🏥</div>
+          <span class="project-link-icon">↗</span>
+        </div>
+        <div class="project-title">Landing page consultorio médico</div>
+        <div class="project-desc">
+          Página para profesional de salud con integración de WhatsApp Business, mapa y formulario de citas.
+        </div>
+        <div class="project-tags">
+          <span class="tag accent">HTML/CSS/JS</span>
+          <span class="tag">WhatsApp API</span>
+          <span class="tag">Google Maps</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios" style="background: var(--surface); border-radius: 20px; padding: 3rem 2rem; margin: 0 auto 3rem; max-width: 900px;">
+    <p class="section-label">¿Qué ofrezco?</p>
+    <h2 class="section-title" style="margin-bottom: 2rem;">Servicios disponibles</h2>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Proyectos entregados</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">48h</div>
+        <div class="stat-label">Tiempo promedio de entrega</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Satisfacción de clientes</div>
+      </div>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">🚀</div>
+        <div class="service-title">Landing page profesional</div>
+        <div class="service-desc">Página web de una sección optimizada para convertir visitantes en clientes. Mobile-first, rápida y lista para Google.</div>
+        <div class="service-price">Desde $400.000 COP</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">📈</div>
+        <div class="service-title">Dashboard de datos</div>
+        <div class="service-desc">Visualización de tus datos en Power BI o Looker Studio. KPIs, tendencias y reportes automatizados para tomar mejores decisiones.</div>
+        <div class="service-price">Desde $600.000 COP</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">⚡</div>
+        <div class="service-title">Sitio web completo</div>
+        <div class="service-desc">Web multipágina con secciones de servicios, portafolio, testimonios y formulario de contacto. Entrega en 5-7 días.</div>
+        <div class="service-price">Desde $900.000 COP</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" style="padding-top: 2rem;">
+    <div class="contact-card">
+      <h3>¿Tienes un proyecto en mente?</h3>
+      <p>Respondo en menos de 24 horas. Cuéntame qué necesitas y te doy una cotización sin compromiso.</p>
+      <div class="contact-links">
+        <a href="https://wa.me/57TUNUMERO?text=Hola,%20vi%20tu%20portafolio%20y%20quisiera%20cotizar%20un%20proyecto" class="contact-link">
+          💬 WhatsApp
+        </a>
+        <a href="mailto:tuemail@gmail.com" class="contact-link">
+          ✉️ Correo
+        </a>
+        <a href="https://linkedin.com/in/tuperfil" class="contact-link">
+          🔗 LinkedIn
+        </a>
+        <a href="https://github.com/tuusuario" class="contact-link">
+          🐙 GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 DUVI · Desarrollo Web &amp; Análisis de Datos · Bogotá, Colombia</p>
+  </footer>
+
+</body>
+</html>
