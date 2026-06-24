@@ -1,209 +1,559 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DUVI — Frontend Developer & Data Analyst</title>
+  <title>DUVI | Frontend JS, Node.js Backend & AI Implementation</title>
+  <meta name="description" content="Executive portfolio by DUVI: Frontend JavaScript, Node.js backend and AI implementation for high-impact apps and websites." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #0d0d0f; --surface: #16161a; --surface2: #1e1e24;
-      --border: rgba(255,255,255,0.07); --accent: #6c63ff; --accent2: #00d4aa;
-      --text: #f0eff5; --muted: #8b8a99; --card-radius: 14px;
+      --bg: #06141f;
+      --bg-2: #0c2030;
+      --surface: rgba(13, 34, 49, 0.78);
+      --surface-solid: #0f2a3d;
+      --line: rgba(141, 195, 225, 0.22);
+      --text: #ebf8ff;
+      --muted: #8db6cc;
+      --primary: #00bcd4;
+      --primary-soft: rgba(0, 188, 212, 0.18);
+      --gold: #f6c768;
+      --ok: #24d6a2;
+      --radius: 18px;
     }
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.7; min-height: 100vh; }
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(13,13,15,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
-    .nav-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
-    .nav-logo span { color: var(--accent); }
-    .nav-right { display: flex; align-items: center; gap: 2rem; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--text); }
-    .lang-switch { display: flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 4px 6px; }
-    .lang-btn { padding: 4px 12px; border-radius: 999px; font-size: 0.78rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s; color: var(--muted); border: none; background: transparent; }
-    .lang-btn.active { background: var(--accent); color: #fff; }
-    .lang-btn:hover:not(.active) { color: var(--text); }
-    .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(108,99,255,0.12) 0%, transparent 70%); pointer-events: none; }
-    .hero-inner { text-align: center; max-width: 680px; position: relative; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(108,99,255,0.12); border: 1px solid rgba(108,99,255,0.3); color: #a49fff; padding: 6px 16px; border-radius: 999px; font-size: 0.82rem; font-weight: 500; margin-bottom: 1.5rem; }
-    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-    .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.4rem, 6vw, 3.8rem); font-weight: 700; line-height: 1.1; letter-spacing: -1.5px; margin-bottom: 1.2rem; }
-    .hero h1 em { font-style: normal; color: var(--accent); }
-    .hero p { color: var(--muted); font-size: 1.1rem; margin-bottom: 2.5rem; }
-    .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .btn-primary { background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 999px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: opacity 0.2s, transform 0.15s; }
-    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
-    .btn-outline { border: 1px solid var(--border); color: var(--text); padding: 12px 28px; border-radius: 999px; font-weight: 500; font-size: 0.95rem; text-decoration: none; transition: border-color 0.2s, transform 0.15s; }
-    .btn-outline:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-1px); }
-    .skills-strip { padding: 2rem; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1.2rem; }
-    .skill-tag { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); padding: 8px 16px; border-radius: var(--card-radius); font-size: 0.85rem; color: var(--muted); font-weight: 500; }
-    .skill-tag .dot { width: 8px; height: 8px; border-radius: 50%; }
-    section { padding: 5rem 2rem; max-width: 900px; margin: 0 auto; }
-    .section-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; margin-bottom: 0.75rem; }
-    .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.6rem, 4vw, 2.2rem); font-weight: 700; letter-spacing: -0.5px; margin-bottom: 3rem; }
-    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-    @media(max-width: 640px) { .projects-grid { grid-template-columns: 1fr; } }
-    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 1.5rem; text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; display: flex; flex-direction: column; gap: 0.75rem; }
-    .project-card:hover { border-color: rgba(108,99,255,0.4); transform: translateY(-3px); }
-    .project-card.featured { grid-column: 1 / -1; }
-    .project-header { display: flex; justify-content: space-between; align-items: flex-start; }
-    .project-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
-    .project-link-icon { color: var(--muted); font-size: 1.1rem; }
-    .project-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.1rem; }
-    .project-desc { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
-    .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: auto; padding-top: 0.5rem; }
-    .tag { font-size: 0.75rem; font-weight: 500; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); }
-    .tag.accent { background: rgba(108,99,255,0.1); border-color: rgba(108,99,255,0.25); color: #a49fff; }
-    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
-    .service-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 1.5rem; }
-    .service-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
-    .service-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem; }
-    .service-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
-    .service-price { margin-top: 1rem; font-size: 0.85rem; font-weight: 600; color: var(--accent2); border-top: 1px solid var(--border); padding-top: 0.75rem; }
-    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 3rem; }
-    @media(max-width: 480px) { .stats-row { grid-template-columns: 1fr 1fr; } }
-    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 1.25rem; text-align: center; }
-    .stat-num { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--accent); }
-    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
-    .contact-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-radius); padding: 2.5rem; text-align: center; }
-    .contact-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
-    .contact-card p { color: var(--muted); margin-bottom: 2rem; }
-    .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .contact-link { display: flex; align-items: center; gap: 8px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 10px 20px; border-radius: 999px; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: border-color 0.2s; }
-    .contact-link:hover { border-color: rgba(255,255,255,0.2); }
-    footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; color: var(--muted); font-size: 0.85rem; }
-    @media(max-width: 600px) { .nav-links { display: none; } }
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(0, 188, 212, 0.2), transparent 35%),
+        radial-gradient(circle at 90% 20%, rgba(246, 199, 104, 0.14), transparent 34%),
+        linear-gradient(160deg, var(--bg) 0%, var(--bg-2) 60%, #051019 100%);
+      line-height: 1.6;
+    }
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.22;
+      background-image:
+        linear-gradient(rgba(141, 195, 225, 0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(141, 195, 225, 0.09) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(circle at center, black 25%, transparent 85%);
+      z-index: 0;
+    }
+    .shell { position: relative; z-index: 1; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(6, 20, 31, 0.75);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.9rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .brand span { color: var(--primary); }
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      list-style: none;
+      font-size: 0.88rem;
+    }
+    .menu a { text-decoration: none; color: var(--muted); font-weight: 600; }
+    .menu a:hover { color: var(--text); }
+    .lang-switch {
+      display: flex;
+      gap: 6px;
+      background: var(--surface-solid);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px;
+    }
+    .lang-btn {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .lang-btn.active { background: var(--primary); color: #03202a; }
+
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5.8rem 1.25rem 3rem;
+      display: grid;
+      grid-template-columns: 1.25fr 0.95fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .hero h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(2rem, 4.8vw, 3.55rem);
+      line-height: 1.08;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+    }
+    .hero h1 .tone { color: var(--gold); }
+    .hero p {
+      max-width: 64ch;
+      color: #b5d5e4;
+      margin-bottom: 1.5rem;
+      font-size: 1.03rem;
+    }
+    .badge-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .pill {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+    }
+    .cta-row { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: 999px;
+      padding: 11px 18px;
+      border: 1px solid transparent;
+      transition: transform 0.18s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: linear-gradient(120deg, #0be2ff 0%, #00bcd4 100%);
+      color: #03202a;
+      box-shadow: 0 10px 26px rgba(0, 188, 212, 0.28);
+    }
+    .btn-ghost {
+      color: var(--text);
+      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.1rem;
+      box-shadow: 0 24px 40px rgba(0, 0, 0, 0.28);
+    }
+    .hero-card h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      margin-bottom: 0.7rem;
+    }
+    .checklist { list-style: none; display: grid; gap: 0.6rem; }
+    .checklist li {
+      display: flex;
+      gap: 0.55rem;
+      font-size: 0.9rem;
+      color: #bed9e8;
+      align-items: flex-start;
+    }
+    .dot {
+      margin-top: 0.36rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--ok);
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(36, 214, 162, 0.7);
+    }
+
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.3rem 1.25rem 3.4rem;
+    }
+    .section-head { margin-bottom: 1.3rem; }
+    .kicker {
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      margin-bottom: 0.35rem;
+    }
+    h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(1.45rem, 3vw, 2.1rem);
+      letter-spacing: -0.5px;
+      margin-bottom: 0.5rem;
+    }
+    .sub { color: var(--muted); max-width: 72ch; }
+
+    .cap-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      padding: 1rem;
+    }
+    .card h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.02rem;
+      margin-bottom: 0.5rem;
+    }
+    .card p { color: #b5d5e4; font-size: 0.92rem; }
+    .stack { margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .chip {
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .trust {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .trust .card { text-align: center; padding: 1rem 0.8rem; }
+    .num {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.45rem;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .label { color: var(--muted); font-size: 0.78rem; font-weight: 700; }
+
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .project {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      text-decoration: none;
+      color: inherit;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(170deg, rgba(11, 35, 50, 0.92), rgba(8, 26, 38, 0.92));
+      padding: 1rem;
+      min-height: 200px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .project:hover { transform: translateY(-4px); border-color: rgba(0, 188, 212, 0.5); }
+    .project .top { display: flex; justify-content: space-between; align-items: center; }
+    .project .site { font-family: 'Sora', sans-serif; font-size: 1.05rem; }
+    .project .arrow { color: var(--primary); font-weight: 900; }
+    .project p { color: #b6d3e2; font-size: 0.9rem; }
+
+    .process {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .cert-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 1rem;
+    }
+    .cert-card h4 {
+      font-family: 'Sora', sans-serif;
+      margin-bottom: 0.45rem;
+      font-size: 1rem;
+    }
+    .cert-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 0.6rem;
+    }
+    .cert-meta {
+      font-size: 0.75rem;
+      color: #b6d3e2;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      padding: 1rem;
+    }
+    .step .n {
+      display: inline-block;
+      min-width: 32px;
+      text-align: center;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-weight: 800;
+      font-size: 0.75rem;
+      background: var(--primary-soft);
+      color: var(--primary);
+      margin-bottom: 0.65rem;
+    }
+    .step h4 { font-family: 'Sora', sans-serif; margin-bottom: 0.35rem; }
+    .step p { color: var(--muted); font-size: 0.9rem; }
+
+    .cta {
+      margin-top: 1.5rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(130deg, rgba(7, 33, 49, 0.95), rgba(4, 18, 28, 0.95));
+      padding: 1.4rem;
+      text-align: center;
+    }
+    .cta h3 { font-family: 'Sora', sans-serif; margin-bottom: 0.35rem; }
+    .cta p { color: var(--muted); margin-bottom: 1rem; }
+    .contact { display: flex; justify-content: center; flex-wrap: wrap; gap: 0.7rem; }
+    .contact a {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      text-align: center;
+      padding: 1.4rem 1rem 2rem;
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero { grid-template-columns: 1fr; }
+      .cap-grid, .trust, .proj-grid, .process, .certs-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 700px) {
+      .menu { display: none; }
+      .cap-grid, .trust, .proj-grid, .process, .certs-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-
-  <nav>
-    <div class="nav-logo">DUVI<span>.</span></div>
-    <div class="nav-right">
-      <ul class="nav-links">
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <div class="lang-switch">
-        <a href="index.html" class="lang-btn">ES</a>
-        <span class="lang-btn active">EN</span>
+  <div class="grid-overlay"></div>
+  <div class="shell">
+    <nav>
+      <div class="nav-inner">
+        <div class="brand">DUVI<span>.tech</span></div>
+        <ul class="menu">
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#certifications">Certifications</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#delivery">Delivery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="lang-switch">
+          <a href="index.html" class="lang-btn">ES</a>
+          <span class="lang-btn active">EN</span>
+          <a href="index-pt.html" class="lang-btn">PT</a>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-badge"><span class="badge-dot"></span>Available for freelance projects</div>
-      <h1>Frontend Dev<br/>&amp; <em>Data Analyst</em><br/>based in Colombia</h1>
-      <p>I build landing pages that convert and dashboards that reveal what your data is really saying. Pure HTML/CSS/JS + Power BI &amp; BI Analytics.</p>
-      <div class="hero-cta">
-        <a href="#projects" class="btn-primary">View projects</a>
-        <a href="#contact" class="btn-outline">Let's talk →</a>
+    <header class="hero">
+      <div>
+        <div class="badge-row">
+          <span class="pill">Frontend JavaScript</span>
+          <span class="pill">Backend Node.js</span>
+          <span class="pill">AI Implementation</span>
+          <span class="pill">Quantum Computing Credentials</span>
+        </div>
+        <h1>I build apps and websites with an <span class="tone">executive-grade standard</span> for measurable outcomes.</h1>
+        <p>I am a business-driven full-stack developer. I deliver modern JavaScript interfaces, production-ready Node.js backend architecture, and embedded AI features that automate workflows, improve conversion, and accelerate growth.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#projects">View live websites</a>
+          <a class="btn btn-ghost" href="#contact">Request proposal</a>
+        </div>
       </div>
-    </div>
-  </section>
+      <aside class="hero-card">
+        <h3>Why recruiters and clients trust my delivery</h3>
+        <ul class="checklist">
+          <li><span class="dot"></span><span>Hands-on expertise across Frontend JS, Node.js, and product architecture.</span></li>
+          <li><span class="dot"></span><span>AI implementation tied to business use-cases, not just demos.</span></li>
+          <li><span class="dot"></span><span>Quantum Computing skills and diplomas, mainly in PennyLane and Microsoft Quantum Katas.</span></li>
+          <li><span class="dot"></span><span>Delivery focused on performance, maintainability, and execution quality.</span></li>
+          <li><span class="dot"></span><span>Executive communication, milestone clarity, and dependable follow-through.</span></li>
+        </ul>
+      </aside>
+    </header>
 
-  <div class="skills-strip">
-    <div class="skill-tag"><span class="dot" style="background:#f7df1e"></span>JavaScript</div>
-    <div class="skill-tag"><span class="dot" style="background:#e34f26"></span>HTML5 / CSS3</div>
-    <div class="skill-tag"><span class="dot" style="background:#764abc"></span>Power BI</div>
-    <div class="skill-tag"><span class="dot" style="background:#00d4aa"></span>Google Looker Studio</div>
-    <div class="skill-tag"><span class="dot" style="background:#f05032"></span>Git / GitHub</div>
-    <div class="skill-tag"><span class="dot" style="background:#4285f4"></span>Google Analytics</div>
-    <div class="skill-tag"><span class="dot" style="background:#e97627"></span>SQL</div>
+    <section id="skills" class="section">
+      <div class="section-head">
+        <p class="kicker">Core Expertise</p>
+        <h2>End-to-end technical capability</h2>
+        <p class="sub">From digital experience design to backend systems and AI layers, I build web products that are ready to operate, scale, and inspire confidence.</p>
+      </div>
+      <div class="cap-grid">
+        <article class="card">
+          <h3>Frontend JavaScript Engineering</h3>
+          <p>Premium UI execution, component-level structure, mobile-first experience, and performance optimization for conversion.</p>
+          <div class="stack">
+            <span class="chip">JavaScript ES6+</span><span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">UI Motion</span><span class="chip">Technical SEO</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Backend Node.js Delivery</h3>
+          <p>Backend services for apps and websites, API design, integrations, authentication, and robust business logic in Node.js.</p>
+          <div class="stack">
+            <span class="chip">Node.js</span><span class="chip">REST APIs</span><span class="chip">Auth</span><span class="chip">Integrations</span><span class="chip">Deploy</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>AI Implementation for Business</h3>
+          <p>AI integration into digital workflows for assistants, process automation, advanced analytics, and operational support.</p>
+          <div class="stack">
+            <span class="chip">AI Workflows</span><span class="chip">Prompt Design</span><span class="chip">Automation</span><span class="chip">Data Insights</span><span class="chip">LLM Integration</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Quantum Computing Skills & Diplomas</h3>
+          <p>Applied quantum computing training and practical work for optimization and simulation use-cases with current frameworks.</p>
+          <div class="stack">
+            <span class="chip">PennyLane</span><span class="chip">Microsoft Quantum Katas</span><span class="chip">Quantum Algorithms</span><span class="chip">Hybrid Models</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="certifications" class="section">
+      <div class="section-head">
+        <p class="kicker">Certifications</p>
+        <h2>Quantum Computing Diplomas</h2>
+        <p class="sub">Formal credentials that validate my practical quantum computing skills for real business and technology scenarios.</p>
+      </div>
+      <div class="certs-grid">
+        <article class="cert-card">
+          <h4>PennyLane Quantum Computing Diploma</h4>
+          <p>Hands-on training in quantum modeling, hybrid algorithms, and development with modern quantum computing tools.</p>
+          <div class="cert-meta">
+            <span>Issuer: PennyLane</span><span>Track: Quantum Machine Learning</span>
+          </div>
+        </article>
+        <article class="cert-card">
+          <h4>Microsoft Quantum Katas Diploma</h4>
+          <p>Completion of structured quantum programming exercises to strengthen algorithmic logic and qubit fundamentals.</p>
+          <div class="cert-meta">
+            <span>Issuer: Microsoft</span><span>Track: Quantum Katas</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="delivery">
+      <div class="section-head">
+        <p class="kicker">Executive Confidence</p>
+        <h2>Delivery model that reduces risk and speeds decisions</h2>
+      </div>
+      <div class="trust">
+        <article class="card"><div class="num">End-to-End</div><div class="label">Frontend + Backend + AI under one accountable owner</div></article>
+        <article class="card"><div class="num">Prod-Ready</div><div class="label">Code built for deployment, not only prototypes</div></article>
+        <article class="card"><div class="num">Business Fit</div><div class="label">Solutions connected to ROI and conversion goals</div></article>
+        <article class="card"><div class="num">Clear Comms</div><div class="label">Transparent milestones and priority alignment</div></article>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="section-head">
+        <p class="kicker">Live Websites</p>
+        <h2>Real proof of professional execution</h2>
+        <p class="sub">These production websites showcase my ability to deliver functional platforms, strong visual systems, and business-ready outcomes.</p>
+      </div>
+      <div class="proj-grid">
+        <a class="project" href="https://gaptservicios.com.co/" target="_blank" rel="noopener noreferrer">
+          <div class="top"><h3 class="site">gaptservicios.com.co</h3><span class="arrow">OPEN</span></div>
+          <p>Corporate web presence with commercial clarity and conversion-focused content architecture.</p>
+          <div class="stack"><span class="chip">Corporate Web</span><span class="chip">Frontend JS</span><span class="chip">Conversion UX</span></div>
+        </a>
+        <a class="project" href="https://snapvas.com/" target="_blank" rel="noopener noreferrer">
+          <div class="top"><h3 class="site">snapvas.com</h3><span class="arrow">OPEN</span></div>
+          <p>Brand-forward website focused on digital positioning, modern visual architecture, and smooth navigation.</p>
+          <div class="stack"><span class="chip">Brand Site</span><span class="chip">Responsive UI</span><span class="chip">Modern Design</span></div>
+        </a>
+        <a class="project" href="https://integraclinic.co/" target="_blank" rel="noopener noreferrer">
+          <div class="top"><h3 class="site">integraclinic.co</h3><span class="arrow">OPEN</span></div>
+          <p>Healthcare website built for trust, direct contact, and an operationally clear service experience.</p>
+          <div class="stack"><span class="chip">Healthcare Web</span><span class="chip">Lead Flow</span><span class="chip">Service UX</span></div>
+        </a>
+        <a class="project" href="https://beyondugc.com/" target="_blank" rel="noopener noreferrer">
+          <div class="top"><h3 class="site">beyondugc.com</h3><span class="arrow">OPEN</span></div>
+          <p>High-impact site implementation with offer storytelling, social proof sections, and strategic conversion flow.</p>
+          <div class="stack"><span class="chip">Growth Website</span><span class="chip">JS Interactions</span><span class="chip">Sales Focus</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <p class="kicker">Working Model</p>
+        <h2>Execution framework for premium projects</h2>
+      </div>
+      <div class="process">
+        <article class="step"><span class="n">01</span><h4>Executive Discovery</h4><p>I define business goals, technical risks, and functional scope for precise project kickoff.</p></article>
+        <article class="step"><span class="n">02</span><h4>Build & Integrate</h4><p>I build frontend, Node.js backend, and AI integrations in short cycles with constant validation.</p></article>
+        <article class="step"><span class="n">03</span><h4>Launch & Scale</h4><p>I deploy, optimize, and leave a strong base for product evolution and sustainable growth.</p></article>
+      </div>
+      <div id="contact" class="cta">
+        <h3>Ready to build your next website or app?</h3>
+        <p>I can support you as a full-stack developer with brand-trust focus, robust technology, and executive-level delivery.</p>
+        <div class="contact">
+          <a href="https://wa.me/57TUNUMERO?text=Hi,%20I%20want%20to%20quote%20a%20website%20or%20app%20project">WhatsApp</a>
+          <a href="mailto:tuemail@gmail.com">Email</a>
+          <a href="https://linkedin.com/in/tuperfil" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://github.com/dfparrat" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>2026 DUVI | Frontend JS | Backend Node.js | AI Implementation | Quantum Computing (PennyLane + Microsoft Quantum Katas) | Colombia</p>
+    </footer>
   </div>
-
-  <section id="projects">
-    <p class="section-label">Portfolio</p>
-    <h2 class="section-title">Selected projects</h2>
-    <div class="projects-grid">
-      <a href="#" class="project-card featured">
-        <div class="project-header">
-          <div class="project-icon" style="background:rgba(108,99,255,0.15)">🛍️</div>
-          <span class="project-link-icon">↗</span>
-        </div>
-        <div class="project-title">E-commerce landing page — [Client name]</div>
-        <div class="project-desc">Landing page for an online store with product section, cart and contact form. Optimized for mobile-first with load time under 2s. Increased conversions by 40% compared to the previous site.</div>
-        <div class="project-tags">
-          <span class="tag accent">HTML/CSS/JS</span><span class="tag">Responsive</span><span class="tag">Basic SEO</span><span class="tag">Mobile-first</span>
-        </div>
-      </a>
-      <a href="#" class="project-card">
-        <div class="project-header">
-          <div class="project-icon" style="background:rgba(0,212,170,0.12)">📊</div>
-          <span class="project-link-icon">↗</span>
-        </div>
-        <div class="project-title">Sales dashboard — [Company]</div>
-        <div class="project-desc">Interactive Power BI dashboard with sales KPIs, regional analysis and monthly trends for a commercial team.</div>
-        <div class="project-tags">
-          <span class="tag accent">Power BI</span><span class="tag">SQL</span><span class="tag">Data viz</span>
-        </div>
-      </a>
-      <a href="#" class="project-card">
-        <div class="project-header">
-          <div class="project-icon" style="background:rgba(255,190,50,0.12)">🏥</div>
-          <span class="project-link-icon">↗</span>
-        </div>
-        <div class="project-title">Medical practice landing page</div>
-        <div class="project-desc">Website for a healthcare professional with WhatsApp Business integration, map and appointment booking form.</div>
-        <div class="project-tags">
-          <span class="tag accent">HTML/CSS/JS</span><span class="tag">WhatsApp API</span><span class="tag">Google Maps</span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <section id="services" style="background: var(--surface); border-radius: 20px; padding: 3rem 2rem; margin: 0 auto 3rem; max-width: 900px;">
-    <p class="section-label">What I offer</p>
-    <h2 class="section-title" style="margin-bottom: 2rem;">Available services</h2>
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-num">5+</div><div class="stat-label">Projects delivered</div></div>
-      <div class="stat-card"><div class="stat-num">48h</div><div class="stat-label">Average delivery time</div></div>
-      <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label">Client satisfaction</div></div>
-    </div>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">🚀</div>
-        <div class="service-title">Professional landing page</div>
-        <div class="service-desc">Single-section website optimized to turn visitors into clients. Mobile-first, fast and Google-ready.</div>
-        <div class="service-price">From $200 USD</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">📈</div>
-        <div class="service-title">Data dashboard</div>
-        <div class="service-desc">Visualize your data in Power BI or Looker Studio. KPIs, trends and automated reports to make better decisions.</div>
-        <div class="service-price">From $300 USD</div>
-      </div>
-      <div class="service-card">
-        <div class="service-icon">⚡</div>
-        <div class="service-title">Full website</div>
-        <div class="service-desc">Multi-page site with services, portfolio, testimonials and contact form. Delivered in 5-7 days.</div>
-        <div class="service-price">From $450 USD</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" style="padding-top: 2rem;">
-    <div class="contact-card">
-      <h3>Got a project in mind?</h3>
-      <p>I respond within 24 hours. Tell me what you need and I'll send a no-commitment quote.</p>
-      <div class="contact-links">
-        <a href="https://wa.me/57TUNUMERO?text=Hi,%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20get%20a%20quote" class="contact-link">💬 WhatsApp</a>
-        <a href="mailto:tuemail@gmail.com" class="contact-link">✉️ Email</a>
-        <a href="https://linkedin.com/in/tuperfil" class="contact-link">🔗 LinkedIn</a>
-        <a href="https://github.com/dfparrat" class="contact-link">🐙 GitHub</a>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2026 DUVI · Web Development &amp; Data Analytics · Bogotá, Colombia</p>
-  </footer>
 </body>
 </html>
