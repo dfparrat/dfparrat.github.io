@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DUVI | Frontend JS, Backend Node.js e Implementacao AI</title>
   <meta name="description" content="Portfolio executivo de DUVI: Frontend JavaScript, backend Node.js e implementacao AI para apps e websites de alto impacto." />
+  <meta property="og:image" content="/assets/img/duvi-og-share.jpg" />
+  <meta property="og:title" content="DUVI | Frontend JS, Backend Node.js e Implementacao AI" />
+  <meta property="og:description" content="Frontend JavaScript, backend Node.js e implementacao AI para apps e websites de alto impacto." />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -108,7 +112,21 @@
       grid-template-columns: 1.25fr 0.95fr;
       gap: 1.5rem;
       align-items: center;
+      position: relative;
+      overflow: hidden;
+      border-radius: calc(var(--radius) + 4px);
+      background-image: url('/assets/img/duvi-hero-bg.jpg');
+      background-size: cover;
+      background-position: center;
     }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 12, 24, 0.55);
+      z-index: 0;
+    }
+    .hero > * { position: relative; z-index: 1; }
     .hero h1 {
       font-family: 'Sora', sans-serif;
       font-size: clamp(2rem, 4.8vw, 3.55rem);
@@ -157,6 +175,64 @@
       color: var(--text);
       border-color: var(--line);
       background: rgba(255, 255, 255, 0.03);
+    }
+
+    /* === DUVI Portfolio Enhancements (Shared) === */
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .metric-item {
+      background: rgba(6, 20, 31, 0.74);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.8rem 0.75rem;
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
+    .metric-value {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(1.35rem, 2.8vw, 1.75rem);
+      line-height: 1;
+      color: #38D9FF;
+      margin-bottom: 0.35rem;
+    }
+    .metric-label {
+      color: #c8d9e4;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1px;
+    }
+
+    .section-divider {
+      max-width: 1200px;
+      height: 96px;
+      margin: 0.4rem auto 1.2rem;
+      border-radius: var(--radius);
+      background-image: linear-gradient(rgba(6, 20, 31, 0.34), rgba(6, 20, 31, 0.34)), url('/assets/img/duvi-section-divider.jpg');
+      background-size: cover;
+      background-position: center;
+      border: 1px solid var(--line);
+    }
+
+    .cap-grid .card {
+      background-color: rgba(13, 34, 49, 0.84);
+      background-image: linear-gradient(rgba(8, 16, 32, 0.5), rgba(8, 16, 32, 0.5)), url('/assets/img/duvi-skills-texture.jpg');
+      background-size: cover;
+      background-position: center;
+      background-blend-mode: overlay;
+    }
+
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .reveal-item.revealed {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .hero-card {
@@ -271,13 +347,70 @@
       background: linear-gradient(170deg, rgba(11, 35, 50, 0.92), rgba(8, 26, 38, 0.92));
       padding: 1rem;
       min-height: 200px;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
-    .project:hover { transform: translateY(-4px); border-color: rgba(0, 188, 212, 0.5); }
+    .project:hover {
+      transform: scale(1.03);
+      border-color: rgba(56, 217, 255, 0.6);
+      box-shadow: 0 16px 28px rgba(56, 217, 255, 0.4);
+    }
+    .project:focus-visible {
+      outline: 2px solid #38D9FF;
+      outline-offset: 3px;
+    }
     .project .top { display: flex; justify-content: space-between; align-items: center; }
     .project .site { font-family: 'Sora', sans-serif; font-size: 1.05rem; }
     .project .arrow { color: var(--primary); font-weight: 900; }
     .project p { color: #b6d3e2; font-size: 0.9rem; }
+    .project-link {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 900;
+      letter-spacing: 0.2px;
+    }
+
+    .case-toggle {
+      margin-top: 0.4rem;
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.5rem 0.65rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .case-arrow {
+      transition: transform 0.3s ease;
+      color: #38D9FF;
+      font-size: 0.9rem;
+    }
+    .case-toggle[aria-expanded="true"] .case-arrow { transform: rotate(180deg); }
+    .case-study {
+      margin-top: 0.65rem;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      border-top: 1px solid rgba(141, 195, 225, 0.18);
+      padding-top: 0;
+    }
+    .case-study.open {
+      max-height: 260px;
+      opacity: 1;
+      padding-top: 0.6rem;
+    }
+    .case-study p {
+      color: #c5dbea;
+      font-size: 0.84rem;
+      margin-bottom: 0.45rem;
+    }
+    .case-study p:last-child { margin-bottom: 0; }
 
     .process {
       display: grid;
@@ -368,11 +501,14 @@
 
     @media (max-width: 980px) {
       .hero { grid-template-columns: 1fr; }
+      .hero-metrics { grid-template-columns: 1fr 1fr; }
       .cap-grid, .trust, .proj-grid, .process, .certs-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 700px) {
       .menu { display: none; }
+      .hero-metrics { grid-template-columns: 1fr 1fr; }
       .cap-grid, .trust, .proj-grid, .process, .certs-grid { grid-template-columns: 1fr; }
+      .section-divider { height: 82px; margin: 0 auto 1rem; }
     }
   </style>
 </head>
@@ -407,6 +543,24 @@
         </div>
         <h1>Eu construo apps e websites com <span class="tone">padrao executivo</span> para resultados mensuraveis.</h1>
         <p>Sou um desenvolvedor full-stack orientado a negocio. Entrego interfaces modernas em JavaScript, arquitetura backend Node.js pronta para producao e recursos de AI para automatizar processos e acelerar crescimento.</p>
+        <div class="hero-metrics" aria-label="Metricas em destaque">
+          <article class="metric-item">
+            <div class="metric-value" data-target="4" data-prefix="+">+0</div>
+            <p class="metric-label">sites em producao</p>
+          </article>
+          <article class="metric-item">
+            <div class="metric-value" data-target="3" data-suffix="+">0+</div>
+            <p class="metric-label">anos de experiencia</p>
+          </article>
+          <article class="metric-item">
+            <div class="metric-value" data-target="100" data-suffix="%">0%</div>
+            <p class="metric-label">codigo pronto para deploy</p>
+          </article>
+          <article class="metric-item">
+            <div class="metric-value" data-target="3">0</div>
+            <p class="metric-label">idiomas de cobertura</p>
+          </article>
+        </div>
         <div class="cta-row">
           <a class="btn btn-primary" href="#projects">Ver websites ao vivo</a>
           <a class="btn btn-ghost" href="#contact">Solicitar proposta</a>
@@ -462,6 +616,8 @@
       </div>
     </section>
 
+    <div class="section-divider" role="presentation" aria-hidden="true"></div>
+
     <section id="certifications" class="section">
       <div class="section-head">
         <p class="kicker">Certificacoes</p>
@@ -485,6 +641,8 @@
         </article>
       </div>
     </section>
+
+    <div class="section-divider" role="presentation" aria-hidden="true"></div>
 
     <section class="section" id="delivery">
       <div class="section-head">
@@ -521,11 +679,17 @@
           <p>Website para saude com foco em confianca, contato direto e experiencia de servico clara.</p>
           <div class="stack"><span class="chip">Healthcare Web</span><span class="chip">Lead Flow</span><span class="chip">Service UX</span></div>
         </a>
-        <a class="project" href="https://beyondugc.com/" target="_blank" rel="noopener noreferrer">
-          <div class="top"><h3 class="site">beyondugc.com</h3><span class="arrow">OPEN</span></div>
+        <article class="project project-case">
+          <div class="top"><h3 class="site">beyondugc.com</h3><a class="project-link" href="https://beyondugc.com/" target="_blank" rel="noopener noreferrer">OPEN</a></div>
           <p>Implementacao de site de alto impacto com narrativa de oferta, prova social e fluxo de conversao estrategico.</p>
           <div class="stack"><span class="chip">Growth Website</span><span class="chip">JS Interactions</span><span class="chip">Sales Focus</span></div>
-        </a>
+          <button class="case-toggle" type="button" data-case-toggle aria-expanded="false" aria-controls="case-study-pt">Ver detalhes <span class="case-arrow" aria-hidden="true">&#9662;</span></button>
+          <div class="case-study" id="case-study-pt" data-case-panel>
+            <p><strong>Problema:</strong> O site precisava alinhar 11 entregaveis contratuais com o que estava em producao, melhorar o impacto visual da secao principal e resolver falhas de infraestrutura (DNS, e-mail transacional) que afetavam a conversao.</p>
+            <p><strong>Solucao:</strong> Auditoria ponto a ponto contra o contrato, redesign do hero com estetica flat cream/caramel, configuracao de DNS (Netlify + GoDaddy) e Mailchimp, entrega iterativa por sprints com acompanhamento Scrum.</p>
+            <p><strong>Resultado:</strong> Site totalmente alinhado ao contrato, infraestrutura de e-mail funcional e experiencia visual coerente com a marca, pronta para captar leads.</p>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -555,5 +719,95 @@
       <p>2026 DUVI | Frontend JS | Backend Node.js | AI Implementation | Quantum Computing (PennyLane + Microsoft Quantum Katas) | Colombia</p>
     </footer>
   </div>
+  <script>
+    (function () {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const revealTargets = document.querySelectorAll('.card, .cert-card, .project, .step, .hero-card, .metric-item');
+      if (prefersReducedMotion) {
+        revealTargets.forEach((item) => item.classList.add('revealed'));
+      } else {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              return;
+            }
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: 0.2 });
+
+        revealTargets.forEach((item) => {
+          item.classList.add('reveal-item');
+          revealObserver.observe(item);
+        });
+      }
+
+      const metricRow = document.querySelector('.hero-metrics');
+      const counters = document.querySelectorAll('.metric-value[data-target]');
+
+      const animateCounter = (el) => {
+        if (el.dataset.animated === 'true') {
+          return;
+        }
+        el.dataset.animated = 'true';
+
+        const target = Number(el.dataset.target || '0');
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const duration = 1200;
+        const start = performance.now();
+
+        const update = (now) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const value = Math.floor(eased * target);
+          el.textContent = prefix + value + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            el.textContent = prefix + target + suffix;
+          }
+        };
+
+        requestAnimationFrame(update);
+      };
+
+      if (metricRow) {
+        if (prefersReducedMotion) {
+          counters.forEach((el) => {
+            const prefix = el.dataset.prefix || '';
+            const suffix = el.dataset.suffix || '';
+            el.textContent = prefix + (el.dataset.target || '0') + suffix;
+          });
+        } else {
+          const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) {
+                return;
+              }
+              counters.forEach(animateCounter);
+              observer.unobserve(entry.target);
+            });
+          }, { threshold: 0.35 });
+          counterObserver.observe(metricRow);
+        }
+      }
+
+      const caseToggles = document.querySelectorAll('[data-case-toggle]');
+      caseToggles.forEach((toggle) => {
+        toggle.addEventListener('click', function () {
+          const panelId = this.getAttribute('aria-controls');
+          const panel = panelId ? document.getElementById(panelId) : null;
+          if (!panel) {
+            return;
+          }
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', String(!expanded));
+          panel.classList.toggle('open', !expanded);
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
